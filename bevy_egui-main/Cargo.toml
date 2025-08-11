@@ -1,0 +1,211 @@
+[package]
+name = "bevy_egui"
+version = "0.35.1"
+# Needed for LazyLock https://doc.rust-lang.org/stable/std/sync/struct.LazyLock.html
+rust-version = "1.80.0"
+authors = ["vladbat00 <vladyslav.batyrenko@gmail.com>"]
+description = "A plugin for Egui integration into Bevy"
+license = "MIT"
+edition = "2021"
+repository = "https://github.com/vladbat00/bevy_egui"
+exclude = ["assets/**/*", ".github/**/*"]
+
+[package.metadata.docs.rs]
+features = ["bevy_winit/x11", "immutable_ctx"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[features]
+default = ["manage_clipboard", "open_url", "default_fonts", "render", "bevy_ui", "picking"]
+accesskit_placeholder = ["egui/accesskit", "bevy_a11y"] # the feature won't compile until Egui updates its accesskit version, hence disabled by default
+immutable_ctx = []
+manage_clipboard = ["arboard", "thread_local", "bytemuck"]
+open_url = ["webbrowser"]
+default_fonts = ["egui/default_fonts"]
+render = [
+    "bevy_asset",
+    "bevy_core_pipeline",
+    "bevy_image",
+    "bevy_render",
+    "bevy_transform",
+    "encase",
+    "bytemuck",
+    "egui/bytemuck",
+    "wgpu-types",
+]
+picking = ["render", "bevy_picking"]
+serde = ["egui/serde"]
+# The enabled logs will print with the info log level, to make it less cumbersome to debug in browsers.
+log_input_events = []
+# The enabled logs will print with the info log level, to make it less cumbersome to debug in browsers.
+log_file_dnd_events = []
+
+[[example]]
+name = "absorb_input"
+required-features = ["render"]
+[[example]]
+name = "color_test"
+required-features = ["render"]
+[[example]]
+name = "paint_callback"
+required-features = ["render"]
+[[example]]
+name = "render_to_image_widget"
+required-features = ["render"]
+[[example]]
+name = "run_manually"
+required-features = ["render"]
+[[example]]
+name = "side_panel"
+required-features = ["render"]
+[[example]]
+name = "simple"
+required-features = ["render"]
+[[example]]
+name = "split_screen"
+required-features = ["render"]
+[[example]]
+name = "two_windows"
+required-features = ["render"]
+[[example]]
+name = "ui"
+required-features = ["render"]
+[[example]]
+name = "render_egui_to_image"
+required-features = ["picking", "render", "bevy/bevy_gizmos"]
+[[example]]
+name = "file_browse"
+required-features = ["render"]
+
+[dependencies]
+egui = { version = "0.32", default-features = false }
+bevy_a11y = { git = "https://github.com/bevyengine/bevy", optional = true }
+bevy_app = { git = "https://github.com/bevyengine/bevy" }
+bevy_derive = { git = "https://github.com/bevyengine/bevy" }
+bevy_ecs = { git = "https://github.com/bevyengine/bevy" }
+bevy_input = { git = "https://github.com/bevyengine/bevy" }
+bevy_log = { git = "https://github.com/bevyengine/bevy" }
+bevy_math = { git = "https://github.com/bevyengine/bevy" }
+bevy_platform = { git = "https://github.com/bevyengine/bevy" }
+bevy_reflect = { git = "https://github.com/bevyengine/bevy" }
+bevy_time = { git = "https://github.com/bevyengine/bevy" }
+bevy_transform = { git = "https://github.com/bevyengine/bevy", optional = true }
+bevy_ui = { git = "https://github.com/bevyengine/bevy", optional = true }
+bevy_window = { git = "https://github.com/bevyengine/bevy" }
+bevy_winit = { git = "https://github.com/bevyengine/bevy" }
+bevy = { git = "https://github.com/bevyengine/bevy", default-features = false, features = [
+    "std",
+    "async_executor",
+    "android-game-activity",
+    "android_shared_stdcxx",
+    "animation",
+    "bevy_asset",
+    "bevy_audio",
+    "bevy_color",
+    "bevy_core_pipeline",
+    "bevy_core_widgets",
+    "bevy_anti_aliasing",
+    "bevy_gilrs",
+    "bevy_gizmos",
+    "bevy_gltf",
+    "bevy_input_focus",
+    "bevy_log",
+    "bevy_mesh_picking_backend",
+    "bevy_pbr",
+    "bevy_picking",
+    "bevy_render",
+    "bevy_scene",
+    "bevy_sprite",
+    "bevy_sprite_picking_backend",
+    "bevy_state",
+    "bevy_text",
+    "bevy_ui",
+    "bevy_ui_picking_backend",
+    "bevy_ui_render",
+    "bevy_window",
+    "bevy_winit",
+    "custom_cursor",
+    "default_font",
+    "hdr",
+    "multi_threaded",
+    "png",
+    "smaa_luts",
+    "sysinfo_plugin",
+    "tonemapping_luts",
+    "vorbis",
+    "webgl2",
+    "x11",
+    "debug",
+    "zstd_rust",
+    "tonemapping_luts",
+    "dynamic_linking",
+    "mp3",
+    "wav",
+    "bevy_color"
+]}
+# `open_url` feature
+webbrowser = { version = "1.0.1", optional = true }
+
+# `render` feature
+bytemuck = { version = "1", optional = true }
+bevy_asset = { git = "https://github.com/bevyengine/bevy", optional = true }
+bevy_core_pipeline = { git = "https://github.com/bevyengine/bevy", optional = true }
+bevy_image = { git = "https://github.com/bevyengine/bevy", optional = true , features = ["zstd_rust"]}
+bevy_render = { git = "https://github.com/bevyengine/bevy", optional = true }
+encase = { version = "0.10", optional = true }
+wgpu-types = { version = "25.0.0", optional = true }
+
+# `picking` feature
+bevy_picking = { git = "https://github.com/bevyengine/bevy", optional = true }
+uuid = { version = "1.17.0", features = ["v4"] }
+
+# `manage_clipboard` feature
+[target.'cfg(not(any(target_arch = "wasm32", target_os = "android")))'.dependencies]
+arboard = { version = "3.2.0", optional = true }
+thread_local = { version = "1.1.0", optional = true }
+
+[dev-dependencies]
+version-sync = "0.9.5"
+bevy = { git = "https://github.com/bevyengine/bevy", default-features = false, features = [
+    "accesskit_unix",
+    "bevy_log",
+    "bevy_asset",
+    "bevy_core_pipeline",
+    "bevy_pbr",
+    "bevy_mesh_picking_backend",
+    "bevy_sprite",
+    "bevy_window",
+    "bevy_winit",
+    "android-game-activity",
+    "png",
+    "std",
+    "tonemapping_luts",
+    "webgl2",
+    "x11",
+] }
+egui = { version = "0.32", default-features = false, features = ["bytemuck"] }
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios", target_arch = "wasm32")))'.dev-dependencies]
+rfd = "0.15"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+winit = "0.30"
+web-sys = { version = "0.3.74", features = [
+    "Clipboard",
+    "ClipboardEvent",
+    "ClipboardItem",
+    "CompositionEvent",
+    "DataTransfer",
+    "Document",
+    "EventTarget",
+    "HtmlInputElement",
+    "InputEvent",
+    "KeyboardEvent",
+    "Navigator",
+    "TouchEvent",
+    "Window",
+] }
+image = { version = "0.25.5", default-features = false, features = ["png"] } # For copying images
+js-sys = "0.3.63"
+wasm-bindgen = "0.2.93"
+wasm-bindgen-futures = "0.4.36"
+crossbeam-channel = "0.5.8"
